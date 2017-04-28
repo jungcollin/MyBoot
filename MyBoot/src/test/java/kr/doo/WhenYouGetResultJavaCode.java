@@ -1,5 +1,6 @@
 package kr.doo;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -9,6 +10,7 @@ import java.util.Calendar;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.junit.Test;
 
 public class WhenYouGetResultJavaCode {
@@ -26,6 +28,13 @@ public class WhenYouGetResultJavaCode {
 		
 		String hmac = doHMAC(data, key);
 		System.out.println(hmac);
+		
+		try {
+			System.out.println(URLEncoder.encode(hmac, "UTF-8"));
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+
 		
 	}
 	
@@ -52,15 +61,13 @@ public class WhenYouGetResultJavaCode {
 		
 		SecretKeySpec signingKey = new SecretKeySpec(key.getBytes(), "HmacSHA256");
 		
-		Mac mac = null;
-		
 		try {
-			mac = Mac.getInstance("HmacSHA256");
+			Mac mac = Mac.getInstance("HmacSHA256");
 			mac.init(signingKey);
 			
 			byte[] rawHmac = mac.doFinal(data.getBytes());
-			
-			return URLEncoder.encode(new String(rawHmac), "UTF-8");
+			byte[] resultArray = Base64.encodeBase64(rawHmac);
+			return new String(resultArray);
 			
 		}catch(Exception e) {
 			e.printStackTrace();
