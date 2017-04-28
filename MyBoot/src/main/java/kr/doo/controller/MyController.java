@@ -20,7 +20,7 @@ public class MyController {
 	@RequestMapping("/hello")
 	public @ResponseBody MyDomain hello(@RequestBody MyDomain domain) throws IOException {
 		
-		File dataFile = new File("D:/workspace/MyBoot/src/test/resources/data/vinc.json");
+		File dataFile = new File("D:/git/MyBoot/target/test-classes/data/vinc.json");
 		MyDomain response = mapper.readValue(dataFile, MyDomain.class);
 		
 		return response;
