@@ -1,5 +1,11 @@
 package kr.doo;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -16,13 +22,20 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.context.WebApplicationContext;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import kr.doo.domain.MyDomain;
@@ -31,11 +44,14 @@ import kr.doo.domain.MyDomain;
 @SpringBootTest
 public class MyBootApplicationTests {
 	
+	@Autowired private WebApplicationContext wac;
+	MockMvc mvc;
+	
 	RestTemplate restTemplate = new RestTemplate();
 	
 	ObjectMapper mapper = new ObjectMapper();
 
-	@Test
+//	@Test
 	public void hello() throws IOException {
 		
 		File dataFile = new ClassPathResource("data/vinc.json").getFile();
@@ -50,7 +66,7 @@ public class MyBootApplicationTests {
 		System.out.println(jsonString);
 	}
 	
-	@Test
+//	@Test
 	public void anyoung() throws IOException {
 		
 		File dataFile = new ClassPathResource("data/vinc.json").getFile();
@@ -65,7 +81,7 @@ public class MyBootApplicationTests {
 		System.out.println(jsonString);
 	}
 	
-	@Test
+//	@Test
 	public void api() throws IOException {
 		
 		File dataFile = new ClassPathResource("data/vinc.json").getFile();
@@ -100,4 +116,24 @@ public class MyBootApplicationTests {
 		String jsonData = EntityUtils.toString(entity);
 	}
 	
+	@Before
+	public void setup() {
+		mvc = MockMvcBuilders.webAppContextSetup(wac).build();
+	}
+	
+	@Test
+	public void mvcTest() throws JsonProcessingException, Exception {
+		MyDomain request = new MyDomain();
+		request.setName("나야나");
+		request.setPrice(11);
+		
+		mvc.perform(post("/hello")
+				.contentType(MediaType.APPLICATION_JSON_UTF8)
+				.content(mapper.writeValueAsString(request)))
+			.andExpect(status().isOk())
+			.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+//			.andExpect(jsonPath("$.name", is(request.getName().toUpperCase())))
+			;
+		
+	}
 }

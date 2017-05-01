@@ -28,7 +28,7 @@ public class WhenYouGetResultJavaCode {
 	
 	private String getPlain() {
 		String plain = "HFG9000|" + getDate();
-		System.out.printf("%s=", plain);
+		System.out.printf("%s|", plain);
 		return plain;
 	}
 
