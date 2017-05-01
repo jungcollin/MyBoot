@@ -16,26 +16,57 @@ import org.junit.Test;
 public class WhenYouGetResultJavaCode {
 
 	
+	private static String getDate() {
+		try {
+			Thread.sleep(100);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return (new SimpleDateFormat("yyyyMMddHHmmss")).format(Calendar.getInstance().getTime());
+	}
+	
+	private String getPlain() {
+		String plain = "HFG9000|" + getDate();
+		System.out.printf("%s=", plain);
+		return plain;
+	}
+
+	
 	@Test
 	public void getHmacSHA256() {
 		
-		String data = "HFG9000|" + (new SimpleDateFormat("yyyyMMddHHmmss")).format(Calendar.getInstance().getTime());
+		String data = "HFG9000|" + getDate();
 		
 		String hash = testSHA256(data);
 		System.out.println(hash);
 		
-		String key = "HFG9000";
+		String key = "4044cac130913f94a5d4979e0401500e";
 		
 		String hmac = doHMAC(data, key);
 		System.out.println(hmac);
 		
 		try {
 			System.out.println(URLEncoder.encode(hmac, "UTF-8"));
+			System.out.println(URLEncoder.encode(doHMAC(getPlain(), key), "UTF-8"));
+			System.out.println(URLEncoder.encode(doHMAC(getPlain(), key), "UTF-8"));
+			System.out.println(URLEncoder.encode(doHMAC(getPlain(), key), "UTF-8"));
+			System.out.println(URLEncoder.encode(doHMAC(getPlain(), key), "UTF-8"));
+			System.out.println(URLEncoder.encode(doHMAC(getPlain(), key), "UTF-8"));
+			System.out.println(URLEncoder.encode(doHMAC(getPlain(), key), "UTF-8"));
+			System.out.println(URLEncoder.encode(doHMAC(getPlain(), key), "UTF-8"));
+			System.out.println(URLEncoder.encode(doHMAC(getPlain(), key), "UTF-8"));
+			System.out.println(URLEncoder.encode(doHMAC(getPlain(), key), "UTF-8"));
+			System.out.println(URLEncoder.encode(doHMAC(getPlain(), key), "UTF-8"));
+			System.out.println(URLEncoder.encode(doHMAC(getPlain(), key), "UTF-8"));
+			System.out.println(URLEncoder.encode(doHMAC(getPlain(), key), "UTF-8"));
+			System.out.println(URLEncoder.encode(doHMAC(getPlain(), key), "UTF-8"));
+			System.out.println(URLEncoder.encode(doHMAC(getPlain(), key), "UTF-8"));
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
-
 		
+		System.out.println(doHMAC("944542050178560694342P1510100001", key));		
 	}
 	
 	public String testSHA256(String str){
