@@ -2,24 +2,24 @@ package kr.doo;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 
 import org.junit.Test;
 import org.springframework.core.io.ClassPathResource;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy.SnakeCaseStrategy;
 
 import kr.doo.domain.MyDomain;
 import kr.doo.domain.OneApiReceive;
+import kr.doo.domain.OneApiReceiveHeader;
 import kr.doo.domain.OneApiSend;
 import kr.doo.domain.OneApiSendHeader;
 
 @SuppressWarnings("serial")
 public class WhenCheckLib {
 
-	
-	private static final ObjectMapper parseMapper = new ObjectMapper();
-	
 	private static final ObjectMapper mapper = new ObjectMapper();
 	static {
 		mapper.setPropertyNamingStrategy(new SnakeCaseStrategy() {
@@ -36,7 +36,7 @@ public class WhenCheckLib {
 	}
 	
 	@Test
-	public void jacksonStrategy() throws IOException {
+	public void jacksonStrategy() throws IOException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
 		
 		
 		File dataFile = new ClassPathResource("data/mins.json").getFile();
@@ -46,12 +46,15 @@ public class WhenCheckLib {
 		
 		String receive = send(domain);
 		
-		
-		
-		@SuppressWarnings("unchecked")
-		OneApiReceive<MyDomain> rcv = mapper.readValue(receive, OneApiReceive.class);
+		OneApiReceive<MyDomain> rcv = mapper.readValue(receive, new TypeReference<OneApiReceive<MyDomain>>(){});
 		
 		System.out.printf("response=> %s\n", mapper.writerWithDefaultPrettyPrinter().writeValueAsString(rcv));
+		OneApiReceiveHeader rcvHead = rcv.getHeader();
+		System.out.printf("responseHeader=> %s\n", mapper.writerWithDefaultPrettyPrinter().writeValueAsString(rcvHead));
+		
+		
+		MyDomain rcvBody = rcv.getBody();
+		System.out.printf("responseBody=> %s\n", mapper.writerWithDefaultPrettyPrinter().writeValueAsString(rcvBody));
 		
 	}
 	
@@ -70,8 +73,7 @@ public class WhenCheckLib {
 		
 		
 		File dataFile = new ClassPathResource("data/receive.json").getFile();
-		@SuppressWarnings("unchecked")
-		OneApiReceive<MyDomain> rcv = mapper.readValue(dataFile, OneApiReceive.class);
+		OneApiReceive<?> rcv = mapper.readValue(dataFile, OneApiReceive.class);
 		
 		String resJson = mapper.writeValueAsString(rcv);
 		

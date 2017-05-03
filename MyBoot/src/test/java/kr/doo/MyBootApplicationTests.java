@@ -121,6 +121,8 @@ public class MyBootApplicationTests {
 		HttpResponse response = httpClient.execute(new HttpGet("http://localhost/utf8"));
 		HttpEntity entity = response.getEntity();
 		String jsonData = EntityUtils.toString(entity);
+		
+		System.out.println(jsonData);
 	}
 	
 //	@Test
