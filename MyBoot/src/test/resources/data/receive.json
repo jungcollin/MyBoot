@@ -1,0 +1,24 @@
+{
+  "header" : {
+    "RESULT_CODE" : "100",
+    "RESULT_MSG" : "정상",
+    "TR_ID" : "HNA-ONE-001-2017050383719122"
+  },
+  "body" : {
+    "NAME" : "minseo",
+    "PRICE" : 1,
+    "SUB_DOMAIN" : [ {
+      "WIFE" : "me",
+      "SUN" : "taek",
+      "DAU" : "tae"
+    }, {
+      "WIFE" : "minseo",
+      "SUN" : null,
+      "DAU" : null
+    }, {
+      "WIFE" : "seok",
+      "SUN" : "yule",
+      "DAU" : "yule"
+    } ]
+  }
+}

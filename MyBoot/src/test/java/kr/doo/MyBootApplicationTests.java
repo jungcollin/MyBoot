@@ -1,9 +1,7 @@
 package kr.doo;
 
-import static org.hamcrest.CoreMatchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.io.File;
@@ -38,6 +36,7 @@ import org.springframework.web.context.WebApplicationContext;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import kr.doo.bind.UpperSnakeCaseStrategy;
 import kr.doo.domain.MyDomain;
 
 @RunWith(SpringRunner.class)
@@ -50,8 +49,14 @@ public class MyBootApplicationTests {
 	RestTemplate restTemplate = new RestTemplate();
 	
 	ObjectMapper mapper = new ObjectMapper();
+	
+	@Before
+	public void setup() {
+		mvc = MockMvcBuilders.webAppContextSetup(wac).build();
+	}
+	
 
-//	@Test
+	@Test
 	public void hello() throws IOException {
 		
 		File dataFile = new ClassPathResource("data/vinc.json").getFile();
@@ -61,6 +66,8 @@ public class MyBootApplicationTests {
 		
 		MyDomain response = restTemplate.postForObject("http://localhost/hello", request, MyDomain.class);
 		
+		UpperSnakeCaseStrategy s = new UpperSnakeCaseStrategy();
+		mapper.setPropertyNamingStrategy(s);
 		String jsonString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(response);
 		
 		System.out.println(jsonString);
@@ -116,12 +123,7 @@ public class MyBootApplicationTests {
 		String jsonData = EntityUtils.toString(entity);
 	}
 	
-	@Before
-	public void setup() {
-		mvc = MockMvcBuilders.webAppContextSetup(wac).build();
-	}
-	
-	@Test
+//	@Test
 	public void mvcTest() throws JsonProcessingException, Exception {
 		MyDomain request = new MyDomain();
 		request.setName("나야나");

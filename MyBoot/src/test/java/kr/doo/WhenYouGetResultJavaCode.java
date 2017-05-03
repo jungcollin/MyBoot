@@ -37,6 +37,7 @@ public class WhenYouGetResultJavaCode {
 	public void getHmacSHA256() {
 		
 		String data = "HFG9000|" + getDate();
+		data = "hanam|20170503133400";
 		
 		String hash = testSHA256(data);
 		System.out.println(hash);
