@@ -1,19 +1,19 @@
 {
-	"name":"minseo",
-	"price":1,
-	"subDomain" : [
+	"NAME":"minseo",
+	"PRICE":1,
+	"SUB_DOMAIN" : [
 		{
-			"wife" : "me",
-			"sun" : "taek",
-			"dau" : "tae"
+			"WIFE" : "me",
+			"SUN" : "taek",
+			"DAU" : "tae"
 		},
 		{
-			"wife" : "minseo"
+			"WIFE" : "minseo"
 		},
 		{
-			"wife" : "seok",
-			"sun" : "yule",
-			"dau" : "yule"
+			"WIFE" : "seok",
+			"SUN" : "yule",
+			"DAU" : "yule"
 		}
 	]
 }

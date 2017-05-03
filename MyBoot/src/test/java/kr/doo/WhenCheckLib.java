@@ -22,12 +22,15 @@ public class WhenCheckLib {
 	
 	private static final ObjectMapper mapper = new ObjectMapper();
 	static {
-		// UPPER_CASE_STRATEGY
 		mapper.setPropertyNamingStrategy(new SnakeCaseStrategy() {
 			@Override
 			public String translate(String input) {
-				String snakeCase = super.translate(input);
-				return snakeCase.toUpperCase();
+				if("header".equals(input) || "body".equals(input)) {
+					return input;
+				}else {
+					String snakeCase = super.translate(input);
+					return snakeCase.toUpperCase();
+				}
 			}
 		});
 	}
@@ -37,7 +40,7 @@ public class WhenCheckLib {
 		
 		
 		File dataFile = new ClassPathResource("data/mins.json").getFile();
-		MyDomain domain = parseMapper.readValue(dataFile, MyDomain.class);
+		MyDomain domain = mapper.readValue(dataFile, MyDomain.class);
 		
 //		System.out.println(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(domain));
 		
@@ -48,30 +51,29 @@ public class WhenCheckLib {
 		@SuppressWarnings("unchecked")
 		OneApiReceive<MyDomain> rcv = mapper.readValue(receive, OneApiReceive.class);
 		
-		System.out.println(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(rcv));
+		System.out.printf("response=> %s\n", mapper.writerWithDefaultPrettyPrinter().writeValueAsString(rcv));
 		
 	}
 	
 	private <T> String send(T body) throws IOException {
 		
 		File headFile = new ClassPathResource("data/sendHead.json").getFile();
-		OneApiSendHeader head = parseMapper.readValue(headFile, OneApiSendHeader.class);
+		OneApiSendHeader head = mapper.readValue(headFile, OneApiSendHeader.class);
 		
 		OneApiSend<T> send = new OneApiSend<T>();
 		send.setHeader(head);
 		send.setBody(body);
 		
-		String reqJson = mapper.writeValueAsString(send);
+		System.out.printf("request=> %s\n", mapper.writerWithDefaultPrettyPrinter().writeValueAsString(send));
 		
 		// restTemplate
 		
 		
 		File dataFile = new ClassPathResource("data/receive.json").getFile();
 		@SuppressWarnings("unchecked")
-		OneApiReceive<MyDomain> rcv = parseMapper.readValue(dataFile, OneApiReceive.class);
+		OneApiReceive<MyDomain> rcv = mapper.readValue(dataFile, OneApiReceive.class);
 		
 		String resJson = mapper.writeValueAsString(rcv);
-		System.out.println(resJson);
 		
 		return resJson;
 	}
