@@ -20,9 +20,7 @@ import kr.doo.domain.OneApiSendHeader;
 @SuppressWarnings("serial")
 public class WhenCheckLib {
 
-	private static final ObjectMapper mapper = new ObjectMapper();
-	static {
-		mapper.setPropertyNamingStrategy(new SnakeCaseStrategy() {
+	private static final ObjectMapper mapper = new ObjectMapper().setPropertyNamingStrategy(new SnakeCaseStrategy() {
 			@Override
 			public String translate(String input) {
 				if("header".equals(input) || "body".equals(input)) {
@@ -33,7 +31,6 @@ public class WhenCheckLib {
 				}
 			}
 		});
-	}
 	
 	@Test
 	public void jacksonStrategy() throws IOException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {

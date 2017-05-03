@@ -6,7 +6,7 @@
   },
   "body" : {
     "NAME" : "minseo",
-    "PRICE" : 1,
+    "PRICE" : "1",
     "SUB_DOMAIN" : [ {
       "WIFE" : "me",
       "SUN" : "taek",
