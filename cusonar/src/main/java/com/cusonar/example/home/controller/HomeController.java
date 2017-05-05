@@ -14,13 +14,9 @@ public class HomeController {
 	@Autowired
 	HomeMapper homeMapper;
 
-	@RequestMapping("/{name}/{message}")
-	public Home homeee(@PathVariable String name, @PathVariable String message) {
-		
-		Home home = new Home();
-		home.setName(name);
-		home.setMessage(message);
-		return home;
+	@RequestMapping("/")
+	public String home() {
+		return "Hello World!";
 	}
 	
 	@RequestMapping("/{name}")
