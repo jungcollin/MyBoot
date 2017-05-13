@@ -24,4 +24,14 @@ public class HomeController {
 		Home home = homeMapper.readHome(name);
 		return home;
 	}
+	
+	@RequestMapping("/admin")
+	public String admin() {
+		return "This is admin page";
+	}
+	
+	@RequestMapping("/user")
+	public String user() {
+		return "This is user page";
+	}
 }
