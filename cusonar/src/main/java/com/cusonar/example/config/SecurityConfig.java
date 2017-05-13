@@ -8,6 +8,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.session.web.http.HeaderHttpSessionStrategy;
+import org.springframework.session.web.http.HttpSessionStrategy;
 
 import com.cusonar.example.user.service.UserService;
 
@@ -43,15 +45,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		return super.authenticationManagerBean();
 	}
 	
-//    @Bean
-//    public HttpSessionStrategy httpSessionStrategy() {
-//    	return new HeaderHttpSessionStrategy();
-//    }
+    @Bean
+    public HttpSessionStrategy httpSessionStrategy() {
+    	return new HeaderHttpSessionStrategy();
+    }
     
 //    @Bean
 //    public JedisConnectionFactory connectionFactory() throws URISyntaxException {
 //    	JedisConnectionFactory redis = new JedisConnectionFactory();
-//    	redis.setHostName("127.0.0.1");
+//    	redis.setHostName("localhost");
 //    	redis.setPort(6379);
 //    	return redis;
 //    }

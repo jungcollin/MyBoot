@@ -1,4 +1,4 @@
-package com.cusonar.example.config;
+package com.cusonar.example.filter;
 
 import java.io.IOException;
 
