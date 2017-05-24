@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.annotation.Resource;
+
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,11 +17,19 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import kr.doo.domain.MyDomain;
+import kr.doo.service.AbstractService;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @Slf4j
 public class MyController {
+
+	@Resource AbstractService myService;
+	
+	public void cop001() {
+		myService.call();
+	}
+	
 	
 	private static ObjectMapper mapper = new ObjectMapper();
 
